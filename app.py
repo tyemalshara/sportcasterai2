@@ -31,13 +31,13 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
 #        """
 # st.markdown(hide_default_format, unsafe_allow_html=True)
 
-hide_streamlit_style = """
-            <style>
-            [data-testid="stToolbar"] {visibility: hidden !important;}
-            footer {visibility: hidden !important;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+# hide_streamlit_style = """
+#             <style>
+#             [data-testid="stToolbar"] {visibility: hidden !important;}
+#             footer {visibility: hidden !important;}
+#             </style>
+#             """
+# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Streamlit UI elements
 st.header(':grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
