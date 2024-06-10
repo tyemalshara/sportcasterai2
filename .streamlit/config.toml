@@ -2,4 +2,4 @@
 base="dark"
 primaryColor="purple"
 [client]
-toolbarMode = "minimal"
+toolbarMode = "viewer"
