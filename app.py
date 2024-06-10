@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from sklearn.cluster import KMeans
 import streamlit as st
+import streamlit.components.v1 as components
 # Essential custom fuctions for the app to run
 from main_functions import *
 
