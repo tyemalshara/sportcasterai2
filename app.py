@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 from sklearn.cluster import KMeans
 import streamlit as st
-import streamlit.components.v1 as components
 # Essential custom fuctions for the app to run
 from main_functions import *
 
@@ -37,18 +36,15 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
 #             """
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-html_string='''
-<script>
-// To break out of iframe and access the parent window
-const streamlitDoc = window.parent.document;
-
-// Make the replacement
-document.addEventListener("DOMContentLoaded", function(event){
-        streamlitDoc.getElementsByTagName("footer")[0].innerHTML = "Provided by <a href='https://sportcasterai2.streamlit.app/' target='_blank' class='css-z3au9t egzxvld2'>Your Link Display Text Here</a>";
-    });
-</script>
-'''
-components.html(html_string)
+st.markdown(
+    r"""
+    <style>
+    .stDeployButton {
+            visibility: hidden;
+        }
+    </style>
+    """, unsafe_allow_html=True
+)
 
 # Streamlit UI elements
 st.header(':grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
