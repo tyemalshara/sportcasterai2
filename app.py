@@ -36,6 +36,11 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
 #             """
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+def image(src_as_string, **style):
+    return img(src=src_as_string, style=styles(**style))
+
+def link(link, text, **style):
+    return a(_href=link, _target="_blank", style=styles(**style))(text)
 def layout(*args):
     style = """
     <style>
@@ -70,9 +75,7 @@ def layout(*args):
     st.markdown(str(foot), unsafe_allow_html=True)
 
 def footer():
-    myargs = [
-        link("https://sportcasterai2.streamlit.app", image('https://raw.githubusercontent.com/tyemalshara/sportcasterai2/main/SportCasterAI_Logo.png',)),
-    ]
+    myargs = [link("https://sportcasterai2.streamlit.app", image('https://raw.githubusercontent.com/tyemalshara/sportcasterai2/main/SportCasterAI_Logo.png',)),]
     layout(*myargs)
 footer()
 
