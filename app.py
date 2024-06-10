@@ -34,7 +34,7 @@ if YT_URL != "":
     col1, col2 = st.columns(2)
     col1.image(frame, caption='This image is taken from the YouTube live stream. ', channels="BGR")
     cap.release()
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
     cv2.imwrite("UserImage.jpg", frame)
     st.session_state.input_file_path = "UserImage.jpg"
     # Read image
