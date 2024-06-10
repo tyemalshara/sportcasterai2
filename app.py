@@ -9,7 +9,7 @@ import streamlit as st
 from main_functions import *
 
 # Adding logo to web app
-logo = Image.open('/content/SportCasterAI_Logo.png')
+logo = Image.open('SportCasterAI_Logo.png')
 st.set_page_config(page_title="SportCasterAI - Goal Predictor", page_icon = logo, layout="wide")
 # Hiding menu and footer
 hide_default_format = """
