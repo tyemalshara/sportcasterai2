@@ -1,3 +1,4 @@
+htbuilder>=0.3.0
 streamlink
 streamlit
 torch
