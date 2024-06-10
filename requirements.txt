@@ -1,3 +1,4 @@
+streamlit-authenticator
 streamlink
 streamlit
 torch
