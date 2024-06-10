@@ -38,7 +38,7 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 def mybild(src_as_string, **style):
-    return bild(src=src_as_string, style=styles(**style))
+    return img(src=src_as_string, style=styles(**style))
 
 def link(link, text, **style):
     return a(_href=link, _target="_blank", style=styles(**style))(text)
