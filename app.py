@@ -9,15 +9,24 @@ from main_functions import *
 
 # Adding logo to web app
 logo = Image.open('SportCasterAI_Logo.png')
-st.set_page_config(page_title="SportCasterAI - Goal Predictor", page_icon = logo, layout="wide")
-# Hiding menu and footer
-hide_default_format = """
-       <style>
-       #MainMenu {visibility: hidden; }
-       footer {visibility: hidden;}
-       </style>
-       """
-st.markdown(hide_default_format, unsafe_allow_html=True)
+st.set_page_config(page_title="SportCasterAI - Goal Predictor", 
+                   page_icon = logo, 
+                   layout="wide", 
+                   initial_sidebar_state="auto", 
+                   menu_items={
+                          'Get help': None,
+                          'Report a bug': 'None',
+                          'About': "mailto:s190234@th-ab.de
+                              }
+                  )
+# # Hiding menu and footer
+# hide_default_format = """
+#        <style>
+#        #MainMenu {visibility: hidden; }
+#        footer {visibility: hidden;}
+#        </style>
+#        """
+# st.markdown(hide_default_format, unsafe_allow_html=True)
 
 # Streamlit UI elements
 st.header(':grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
