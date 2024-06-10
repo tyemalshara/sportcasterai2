@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from sklearn.cluster import KMeans
 import streamlit as st
+from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
 # Essential custom fuctions for the app to run
 from main_functions import *
 
