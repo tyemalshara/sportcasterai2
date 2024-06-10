@@ -282,8 +282,9 @@ import time
 def call_IkomiaAPI_playermask():
 
   ############################# Authentication ################################
-  IKOMIA_API = 'c37f2724df279b4f28637f796d7f05402105f6c03dcd115722a7025548a2d848' # st.secrets["IKOMIA_API"]
-  url = "https://scale.ikomia.ai/v1/projects/jwt/?endpoint=https://sepn8lvo8g.execute-api.eu-central-1.amazonaws.com/"
+  IKOMIA_API = st.secrets["IKOMIA_API"]
+  fetch_workflow_results_playermask_endpoint = st.secrets["fetch_workflow_results_playermask_endpoint"]
+  url = f"https://scale.ikomia.ai/v1/projects/jwt/?endpoint={fetch_workflow_results_playermask_endpoint}/"
   payload = {}
   headers = {
     'Accept': 'application/json',
@@ -296,7 +297,7 @@ def call_IkomiaAPI_playermask():
       base64_bytes = base64.b64encode(image_file.read())
       base64_string = base64_bytes.decode()
   ######################## Execute deployment  ##############################
-  url = "https://sepn8lvo8g.execute-api.eu-central-1.amazonaws.com/api/run"
+  url = f"{fetch_workflow_results_playermask_endpoint}/api/run"
   payload = json.dumps({
     "inputs": [
       {"image": f"{base64_string}"}
@@ -326,7 +327,7 @@ def fetch_workflow_results_playermask(response, JWT):
         ####################### Retrieve execution results ########################
         # uuid = response.text
         uuid_json = response.json()
-        Endpoint_URL = 'https://sepn8lvo8g.execute-api.eu-central-1.amazonaws.com'
+        Endpoint_URL = st.secrets["fetch_workflow_results_playermask_endpoint"]
         url = f"{Endpoint_URL}/api/results/{uuid_json}"
         payload = {}
         headers = {
@@ -346,8 +347,9 @@ def fetch_workflow_results_playermask(response, JWT):
 def call_IkomiaAPI():
 
   ############################# Authentication ################################
-  IKOMIA_API = 'c37f2724df279b4f28637f796d7f05402105f6c03dcd115722a7025548a2d848' # st.secrets["IKOMIA_API"]
-  url = "https://scale.ikomia.ai/v1/projects/jwt/?endpoint=https://614e4dlzu3.execute-api.eu-central-1.amazonaws.com/"
+  IKOMIA_API = st.secrets["IKOMIA_API"]
+  fetch_workflow_results_endpoint = st.secrets["fetch_workflow_results_endpoint"] 
+  url = f"https://scale.ikomia.ai/v1/projects/jwt/?endpoint={fetch_workflow_results_endpoint}/"
   payload = {}
   headers = {
     'Accept': 'application/json',
@@ -360,7 +362,7 @@ def call_IkomiaAPI():
       base64_bytes = base64.b64encode(image_file.read())
       base64_string = base64_bytes.decode()
   ######################## Execute deployment  ##############################
-  url = "https://614e4dlzu3.execute-api.eu-central-1.amazonaws.com/api/run"
+  url = f"{fetch_workflow_results_endpoint}/api/run"
   payload = json.dumps({
     "inputs": [
       {"image": f"{base64_string}"}
@@ -400,7 +402,7 @@ def fetch_workflow_results(response, JWT):
         ####################### Retrieve execution results ########################
         # uuid = response.text
         uuid_json = response.json()
-        Endpoint_URL = 'https://614e4dlzu3.execute-api.eu-central-1.amazonaws.com'
+        Endpoint_URL = st.secrets["fetch_workflow_results_endpoint"]
         url = f"{Endpoint_URL}/api/results/{uuid_json}"
         payload = {}
         headers = {
