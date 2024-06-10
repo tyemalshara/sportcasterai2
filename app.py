@@ -16,7 +16,7 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
                    menu_items={
                           'Get help': None,
                           'Report a bug': 'None',
-                          'About': "mailto:s190234@th-ab.de
+                          'About': "mailto:s190234@th-ab.de"
                               }
                   )
 # # Hiding menu and footer
