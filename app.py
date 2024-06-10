@@ -4,16 +4,16 @@ import numpy as np
 from PIL import Image
 from sklearn.cluster import KMeans
 import streamlit as st
-from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
-from htbuilder.units import percent, px
-from htbuilder.funcs import rgba, rgb
 # Essential custom fuctions for the app to run
 from main_functions import *
 
-# Adding logo to web app
-logo = Image.open('SportCasterAI_Logo.png')
+# Adding upper-left logo
+LOGO_URL_SMALL = 'https://raw.githubusercontent.com/tyemalshara/sportcasterai2/main/SportCasterAI_Logo_SMALL.png'
+st.logo(link="https://sportcasterai2.streamlit.app/", icon_image=LOGO_URL_SMALL)
+# Adding logo icon to web app
+# logo = Image.open('SportCasterAI_Logo.png')
 st.set_page_config(page_title="SportCasterAI - Goal Predictor", 
-                   page_icon = logo, 
+                   page_icon = 'SportCasterAI_Logo.png', 
                    layout="wide", 
                    initial_sidebar_state="auto", 
                    menu_items={
@@ -31,58 +31,13 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
 #        """
 # st.markdown(hide_default_format, unsafe_allow_html=True)
 
-# hide_streamlit_style = """
-#             <style>
-#             [data-testid="stToolbar"] {visibility: hidden !important;}
-#             footer {visibility: hidden !important;}
-#             </style>
-#             """
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-def mybild(src_as_string, **style):
-    return img(src=src_as_string, style=styles(**style))
-
-def link(link, text, **style):
-    return a(_href=link, _target="_blank", style=styles(**style))(text)
-def layout(*args):
-    style = """
-    <style>
-        MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        .stApp { bottom: 60px; }
-    </style>
-    """
-
-    style_div = styles(
-        position="fixed",
-        right=0,
-        bottom=0,
-        margin=px(0, 15, 0, 0),
-        text_align="center",
-        opacity=0.5,
-    )
-
-    body = p()
-    foot = div(
-        style=style_div
-    )(
-        body
-    )
-
-    st.markdown(style, unsafe_allow_html=True)
-    for arg in args:
-        if isinstance(arg, str):
-            body(arg)
-        elif isinstance(arg, HtmlElement):
-            body(arg)
-    st.markdown(str(foot), unsafe_allow_html=True)
-
-def footer():
-    myargs = [
-      link("https://sportcasterai2.streamlit.app", mybild('https://raw.githubusercontent.com/tyemalshara/sportcasterai2/main/SportCasterAI_Logo.png',)),
-    ]
-    layout(*myargs)
-footer()
+hide_streamlit_style = """
+            <style>
+            [data-testid="stToolbar"] {visibility: hidden !important;}
+            footer {visibility: hidden !important;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Streamlit UI elements
 st.header(':grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
