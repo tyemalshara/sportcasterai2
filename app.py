@@ -36,15 +36,45 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
 #             """
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-st.markdown(
-    r"""
+def layout(*args):
+    style = """
     <style>
-    .stDeployButton {
-            visibility: hidden;
-        }
+        MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        .stApp { bottom: 60px; }
     </style>
-    """, unsafe_allow_html=True
-)
+    """
+
+    style_div = styles(
+        position="fixed",
+        right=0,
+        bottom=0,
+        margin=px(0, 15, 0, 0),
+        text_align="center",
+        opacity=0.5,
+    )
+
+    body = p()
+    foot = div(
+        style=style_div
+    )(
+        body
+    )
+
+    st.markdown(style, unsafe_allow_html=True)
+    for arg in args:
+        if isinstance(arg, str):
+            body(arg)
+        elif isinstance(arg, HtmlElement):
+            body(arg)
+    st.markdown(str(foot), unsafe_allow_html=True)
+
+def footer():
+    myargs = [
+        link("https://sportcasterai2.streamlit.app", image('https://raw.githubusercontent.com/tyemalshara/sportcasterai2/main/SportCasterAI_Logo.png',)),
+    ]
+    layout(*myargs)
+footer()
 
 # Streamlit UI elements
 st.header(':grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
