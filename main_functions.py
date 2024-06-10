@@ -283,8 +283,8 @@ def call_IkomiaAPI_playermask():
 
   ############################# Authentication ################################
   IKOMIA_API = st.secrets["IKOMIA_API"]
-  fetch_workflow_results_playermask_endpoint = st.secrets["fetch_workflow_results_playermask_endpoint"]
-  url = f"https://scale.ikomia.ai/v1/projects/jwt/?endpoint={fetch_workflow_results_playermask_endpoint}/"
+  FETCH_WORKFLOW_RESULTS_PLAYERMASK_ENDPOINT = st.secrets["FETCH_WORKFLOW_RESULTS_PLAYERMASK_ENDPOINT"]
+  url = f"https://scale.ikomia.ai/v1/projects/jwt/?endpoint={FETCH_WORKFLOW_RESULTS_PLAYERMASK_ENDPOINT}/"
   payload = {}
   headers = {
     'Accept': 'application/json',
@@ -297,7 +297,7 @@ def call_IkomiaAPI_playermask():
       base64_bytes = base64.b64encode(image_file.read())
       base64_string = base64_bytes.decode()
   ######################## Execute deployment  ##############################
-  url = f"{fetch_workflow_results_playermask_endpoint}/api/run"
+  url = f"{FETCH_WORKFLOW_RESULTS_PLAYERMASK_ENDPOINT}/api/run"
   payload = json.dumps({
     "inputs": [
       {"image": f"{base64_string}"}
@@ -327,7 +327,7 @@ def fetch_workflow_results_playermask(response, JWT):
         ####################### Retrieve execution results ########################
         # uuid = response.text
         uuid_json = response.json()
-        Endpoint_URL = st.secrets["fetch_workflow_results_playermask_endpoint"]
+        Endpoint_URL = st.secrets["FETCH_WORKFLOW_RESULTS_PLAYERMASK_ENDPOINT"]
         url = f"{Endpoint_URL}/api/results/{uuid_json}"
         payload = {}
         headers = {
@@ -348,8 +348,8 @@ def call_IkomiaAPI():
 
   ############################# Authentication ################################
   IKOMIA_API = st.secrets["IKOMIA_API"]
-  fetch_workflow_results_endpoint = st.secrets["fetch_workflow_results_endpoint"] 
-  url = f"https://scale.ikomia.ai/v1/projects/jwt/?endpoint={fetch_workflow_results_endpoint}/"
+  FETCH_WORKFLOW_RESULTS_ENDPOINT = st.secrets["FETCH_WORKFLOW_RESULTS_ENDPOINT"] 
+  url = f"https://scale.ikomia.ai/v1/projects/jwt/?endpoint={FETCH_WORKFLOW_RESULTS_ENDPOINT}/"
   payload = {}
   headers = {
     'Accept': 'application/json',
@@ -362,7 +362,7 @@ def call_IkomiaAPI():
       base64_bytes = base64.b64encode(image_file.read())
       base64_string = base64_bytes.decode()
   ######################## Execute deployment  ##############################
-  url = f"{fetch_workflow_results_endpoint}/api/run"
+  url = f"{FETCH_WORKFLOW_RESULTS_ENDPOINT}/api/run"
   payload = json.dumps({
     "inputs": [
       {"image": f"{base64_string}"}
@@ -402,7 +402,7 @@ def fetch_workflow_results(response, JWT):
         ####################### Retrieve execution results ########################
         # uuid = response.text
         uuid_json = response.json()
-        Endpoint_URL = st.secrets["fetch_workflow_results_endpoint"]
+        Endpoint_URL = st.secrets["FETCH_WORKFLOW_RESULTS_ENDPOINT"]
         url = f"{Endpoint_URL}/api/results/{uuid_json}"
         payload = {}
         headers = {
