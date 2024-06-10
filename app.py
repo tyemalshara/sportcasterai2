@@ -9,7 +9,7 @@ from main_functions import *
 
 # Adding upper-left logo
 LOGO_URL_SMALL = 'https://raw.githubusercontent.com/tyemalshara/sportcasterai2/main/SportCasterAI_Logo_SMALL.png'
-st.logo(LOGO_URL_SMALL, link="https://sportcasterai2.streamlit.app/#welcome-to-sportcasterai-goal-predictor", icon_image=LOGO_URL_SMALL)
+st.logo(LOGO_URL_SMALL, link="https://sportcasterai2.streamlit.app/~/+/app.py", icon_image=LOGO_URL_SMALL)
 # Adding logo icon to web app
 # logo = Image.open('SportCasterAI_Logo.png')
 st.set_page_config(page_title="SportCasterAI - Goal Predictor", 
