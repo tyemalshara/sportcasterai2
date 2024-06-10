@@ -1,0 +1,9 @@
+streamlink
+streamlit
+torch
+scikit-learn
+requests
+pandas
+python-dotenv
+opencv-python-headless
+numpy
