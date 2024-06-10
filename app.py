@@ -1,5 +1,4 @@
 import cv2
-from google.colab.patches import cv2_imshow
 import os
 import numpy as np
 from PIL import Image
@@ -32,7 +31,6 @@ if YT_URL != "":
     success, frame = cap.read()
     if not success:
       print("Error: Can't receive frame (stream end?). Exiting ...")
-    cv2_imshow(frame)
     col1, col2 = st.columns(2)
     col1.image(frame, caption='This image is taken from the YouTube live stream. ', channels="BGR")
     cap.release()
