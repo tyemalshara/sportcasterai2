@@ -1,3 +1,5 @@
+sendgrid
+Pillow
 streamlit-authenticator
 streamlink
 streamlit
