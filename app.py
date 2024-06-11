@@ -7,6 +7,9 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
+# import libs for user authentication
+import smtplib
+from email.mime.text import MIMEText
 # Essential custom fuctions for the app to run
 from main_functions import *
 
@@ -104,8 +107,34 @@ elif st.session_state["authentication_status"] is False:
       try:
           username_of_forgotten_password, email_of_forgotten_password, new_random_password = authenticator.forgot_password()
           if username_of_forgotten_password:
-              st.success('New password to be sent securely')
               # The developer should securely transfer the new password to the user.
+              email_sender = st.secrets["EMAIL_SENDER"]
+              email_receiver = email_of_forgotten_password
+              subject = 'SportCasterAI - Forgot Password Request'
+              body = f'''Dear {username_of_forgotten_password},
+              You recently requested a password reset for your account. To proceed, Here's your fresh new password: {new_random_password}
+
+              Reset Password: {new_random_password}
+
+              If you didn't initiate this request, please ignore this email.
+
+              Best regards,
+              SportCasterAI Support Team ''' 
+              password_sender = st.secrets["PASSWORD_SENDER"]
+              try:
+                msg = MIMEText(body)
+                msg['From'] = email_sender
+                msg['To'] = email_receiver
+                msg['Subject'] = subject
+
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()
+                server.login(email_sender, password_sender)
+                server.sendmail(email_sender, email_receiver, msg.as_string())
+                server.quit()
+                st.success('New password to be sent securely')
+              except Exception as e:
+                st.error(f"Error sending email: {e}")
               with open('config.yaml', 'w') as file:
                 yaml.dump(config, file, default_flow_style=False)
           elif username_of_forgotten_password == False:
@@ -117,8 +146,32 @@ elif st.session_state["authentication_status"] is False:
       try:
           username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username()
           if username_of_forgotten_username:
-              st.success('Username to be sent securely')
               # The developer should securely transfer the username to the user.
+              email_sender = st.secrets["EMAIL_SENDER"]
+              email_receiver = email_of_forgotten_username
+              subject = 'SportCasterAI - Forgot Username Request'
+              body = f'''Dear {username_of_forgotten_username},
+              You recently requested to retrieve your username. We're here to help! Your username is: {username_of_forgotten_username}
+
+              If you didn't initiate this request, please ignore this email.
+
+              Best regards,
+              SportCasterAI Support Team ''' 
+              password_sender = st.secrets["PASSWORD_SENDER"]
+              try:
+                msg = MIMEText(body)
+                msg['From'] = email_sender
+                msg['To'] = email_receiver
+                msg['Subject'] = subject
+
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()
+                server.login(email_sender, password_sender)
+                server.sendmail(email_sender, email_receiver, msg.as_string())
+                server.quit()
+                st.success('Username to be sent securely')
+              except Exception as e:
+                st.error(f"Error sending email: {e}")
               with open('config.yaml', 'w') as file:
                 yaml.dump(config, file, default_flow_style=False)
           elif username_of_forgotten_username == False:
