@@ -98,30 +98,33 @@ if st.session_state["authentication_status"]:
                 print("Failed to retrieve results within the given timeout.")
 elif st.session_state["authentication_status"] is False:
     st.error('Username/password is incorrect')
-    # Creating a forgot password widget
-    try:
-        username_of_forgotten_password, email_of_forgotten_password, new_random_password = authenticator.forgot_password()
-        if username_of_forgotten_password:
-            st.success('New password to be sent securely')
-            # The developer should securely transfer the new password to the user.
-            with open('config.yaml', 'w') as file:
-              yaml.dump(config, file, default_flow_style=False)
-        elif username_of_forgotten_password == False:
-            st.error('Username not found')
-    except Exception as e:
-        st.error(e)
-    # Creating a forgot username widget
-    try:
-        username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username()
-        if username_of_forgotten_username:
-            st.success('Username to be sent securely')
-            # The developer should securely transfer the username to the user.
-            with open('config.yaml', 'w') as file:
-              yaml.dump(config, file, default_flow_style=False)
-        elif username_of_forgotten_username == False:
-            st.error('Email not found')
-    except Exception as e:
-        st.error(e)
+    col_forgotpassword, col_forgotusername = st.columns(2)
+    with col_forgotpassword:
+      # Creating a forgot password widget
+      try:
+          username_of_forgotten_password, email_of_forgotten_password, new_random_password = authenticator.forgot_password()
+          if username_of_forgotten_password:
+              st.success('New password to be sent securely')
+              # The developer should securely transfer the new password to the user.
+              with open('config.yaml', 'w') as file:
+                yaml.dump(config, file, default_flow_style=False)
+          elif username_of_forgotten_password == False:
+              st.error('Username not found')
+      except Exception as e:
+          st.error(e)
+    with col_forgotusername:
+      # Creating a forgot username widget
+      try:
+          username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username()
+          if username_of_forgotten_username:
+              st.success('Username to be sent securely')
+              # The developer should securely transfer the username to the user.
+              with open('config.yaml', 'w') as file:
+                yaml.dump(config, file, default_flow_style=False)
+          elif username_of_forgotten_username == False:
+              st.error('Email not found')
+      except Exception as e:
+          st.error(e)
 elif st.session_state["authentication_status"] is None:
     st.warning('Please enter your username and password. New member? Register now!')
     # Creating a new user registration widget
