@@ -26,7 +26,7 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
                               }
                   )
 # Creating a login widget
-with open('../config.yaml') as file:
+with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 authenticator = stauth.Authenticate(
     config['credentials'],
@@ -50,7 +50,7 @@ if st.session_state["authentication_status"]:
     try:
         if authenticator.reset_password(st.session_state["username"]):
             st.success('Password modified successfully')
-            with open('../config.yaml', 'w') as file:
+            with open('config.yaml', 'w') as file:
               yaml.dump(config, file, default_flow_style=False)
     except Exception as e:
         st.error(e)
@@ -59,7 +59,7 @@ try:
     email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
     if email_of_registered_user:
         st.success('User registered successfully')
-        with open('../config.yaml', 'w') as file:
+        with open('config.yaml', 'w') as file:
           yaml.dump(config, file, default_flow_style=False)
 except Exception as e:
     st.error(e)
@@ -69,7 +69,7 @@ try:
     if username_of_forgotten_password:
         st.success('New password to be sent securely')
         # The developer should securely transfer the new password to the user.
-        with open('../config.yaml', 'w') as file:
+        with open('config.yaml', 'w') as file:
           yaml.dump(config, file, default_flow_style=False)
     elif username_of_forgotten_password == False:
         st.error('Username not found')
@@ -81,7 +81,7 @@ try:
     if username_of_forgotten_username:
         st.success('Username to be sent securely')
         # The developer should securely transfer the username to the user.
-        with open('../config.yaml', 'w') as file:
+        with open('config.yaml', 'w') as file:
           yaml.dump(config, file, default_flow_style=False)
     elif username_of_forgotten_username == False:
         st.error('Email not found')
@@ -92,7 +92,7 @@ if st.session_state["authentication_status"]:
     try:
         if authenticator.update_user_details(st.session_state["username"]):
             st.success('Entries updated successfully')
-            with open('../config.yaml', 'w') as file:
+            with open('config.yaml', 'w') as file:
               yaml.dump(config, file, default_flow_style=False)
     except Exception as e:
         st.error(e)
