@@ -28,6 +28,10 @@ st.set_page_config(page_title="SportCasterAI - Goal Predictor",
                           'About': "mailto:s190234@th-ab.de"
                               }
                   )
+# Session State also supports attribute based syntax
+if 'already_registered' not in st.session_state:
+    st.session_state.already_registered = False
+  
 # Creating a login widget
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -187,12 +191,13 @@ elif st.session_state["authentication_status"] is False:
               st.error('Email not found')
       except Exception as e:
           st.error(e)
-elif st.session_state["authentication_status"] is None:
+elif st.session_state["authentication_status"] is None and not st.session_state.already_registered:
     st.warning('Please enter your username and password. New member? Register now!')
     # Creating a new user registration widget
     try:
         email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(pre_authorization=False)
         if email_of_registered_user:
+            st.session_state.already_registered = True
             st.success('User registered successfully')
             with open('config.yaml', 'w') as file:
               yaml.dump(config, file, default_flow_style=False)
