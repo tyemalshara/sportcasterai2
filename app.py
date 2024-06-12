@@ -42,24 +42,10 @@ authenticator = stauth.Authenticate(
 authenticator.login()
 if st.session_state["authentication_status"]:
     authenticator.logout(location='sidebar')
-    st.markdown("""
-      <style>
-          section[data-testid="stSidebar"][aria-expanded="true"]{
-              display: none;
-          }
-      </style>
-      """, unsafe_allow_html=True)
     # Creating an update user details widget
     if st.session_state["authentication_status"]:
         try:
             if authenticator.update_user_details(st.session_state["username"], 'sidebar'):
-                st.markdown("""
-                  <style>
-                      section[data-testid="stSidebar"][aria-expanded="true"]{
-                          display: none;
-                      }
-                  </style>
-                  """, unsafe_allow_html=True)
                 st.success('Entries updated successfully')
                 with open('config.yaml', 'w') as file:
                   yaml.dump(config, file, default_flow_style=False)
@@ -69,13 +55,6 @@ if st.session_state["authentication_status"]:
     if st.session_state["authentication_status"]:
         try:
             if authenticator.reset_password(st.session_state["username"], 'sidebar'):
-                st.markdown("""
-                  <style>
-                      section[data-testid="stSidebar"][aria-expanded="true"]{
-                          display: none;
-                      }
-                  </style>
-                  """, unsafe_allow_html=True)
                 st.success('Password modified successfully')
                 with open('config.yaml', 'w') as file:
                   yaml.dump(config, file, default_flow_style=False)
