@@ -66,7 +66,7 @@ if st.session_state["authentication_status"]:
             st.error(e)
     # st.write(f'Welcome {st.session_state["name"]}')
     # st.title('Some content')
-    st.header(f'{{st.session_state["name"]}}!, :grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
+    st.header(f'{st.session_state["name"]}!, :grey[Welcome to] :orange[SportCasterAI] - :blue[Goal Predictor]', divider='rainbow')
     YT_URL = st.text_input("Enter YouTube Live URL", placeholder="https://www.youtube.com/watch?v=LTdT9BkW77k")
     if YT_URL != "":
       st.video(YT_URL, format="video/mp4", autoplay=True, start_time=0)
@@ -191,7 +191,7 @@ elif st.session_state["authentication_status"] is False:
               st.error('Email not found')
       except Exception as e:
           st.error(e)
-elif st.session_state["authentication_status"] is None and not st.session_state.already_registered:
+elif st.session_state["authentication_status"] is None and st.session_state.already_registered is False:
     st.warning('Please enter your username and password. New member? Register now!')
     # Creating a new user registration widget
     try:
