@@ -158,7 +158,17 @@ def player_team_detection(image, a_value, b_value):
 
   # print(f"Player belongs to Team {closest_team + 1}")
   return closest_team + 1
+def player_team_detection_non_init(image, a_value, b_value):
 
+    lab_image = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+    # Extract A and B channels
+    a_channel, b_channel, _ = cv2.split(lab_image)
+    predicted_color = kmeans.predict([[a_value, b_value]])
+    predicted_team = predicted_color[0]
+    # print(f"Player belongs to Team {predicted_team + 1}")
+    
+    return predicted_team + 1
+    
 def team_detection(image, instance_segmentation_objects):
   # Run player mask detection on your image -> player_mask_wf.run_on(array=image)
   # Fetch the results
@@ -199,7 +209,10 @@ def team_detection(image, instance_segmentation_objects):
       # cv2.imwrite(f"/content/basketballVideoAnalysis/instance{i}.png", instance)
       # cropped.save(f"/content/basketballVideoAnalysis/cropped{i}.png")
       a_value, b_value = get_AB_value(instance, x0, y0, W, H)
-      player_team = player_team_detection(instance, a_value, b_value)
+      if i == 0:
+          player_team = player_team_detection(instance, a_value, b_value)
+      elif i > 0:
+          player_team = player_team_detection_non_init(instance, a_value, b_value)
       # print(f"Player {ids[i]} belongs to Team {player_team}")
       if player_team == 1:
         player_team_1.append(ids[i])  # due to different model used for getting the player mask we don't care about the id since it's impossible to reference or find the link between them
