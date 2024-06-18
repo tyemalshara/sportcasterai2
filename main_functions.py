@@ -241,6 +241,12 @@ def InitFrameDataDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zo
   df = df.transpose()
   return df
 
+def DisplayMatchDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, player_team_1, player_team_2, player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch)
+    df = pd.DataFrame.from_dict({"number of players in crossing zone": len(player_id_in_crossing_zone), 'number of players in recipient zone:': len(player_id_in_recipient_zone), 'number of players in pitch': len(player_id_in_pitch), 'number of players with ball': len(player_with_ball), 'number of players team 1': player_team_1, 'number of players team 2': player_team_2, 'number of players team 1 in pitch': len(player_team_1_in_pitch), 'number of players team 2 in pitch': len(player_team_2_in_pitch), 'number of players team 1 in crossing zone': len(player_team_1_in_crossing_zone), 'number of players team 2 in crossing zone': len(player_team_2_in_crossing_zone), 'number of players team 1 in recipient zone': len(player_team_1_in_recipient_zone), 'number of players team 2 in recipient zone': len(player_team_2_in_recipient_zone) }, orient='index')
+    df = df.transpose()
+    st.dataframe(df, use_container_width=True)
+    st.line_chart(df)
+
 def UpdateFrameDataDataFrame(df, player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, player_team_1, player_team_2, player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch, frame):
   df = df._append({"player_id_in_crossing_zone": len(player_id_in_crossing_zone), 'player_id_in_recipient_zone:': len(player_id_in_recipient_zone), 'player_id_in_pitch': len(player_id_in_pitch), 'player_with_ball': len(player_with_ball), 'player_team_1': player_team_1, 'player_team_2': player_team_2, 'player_team_1_in_pitch': len(player_team_1_in_pitch), 'player_team_2_in_pitch': len(player_team_2_in_pitch), 'player_team_1_in_crossing_zone': len(player_team_1_in_crossing_zone), 'player_team_2_in_crossing_zone': len(player_team_2_in_crossing_zone), 'player_team_1_in_recipient_zone': len(player_team_1_in_recipient_zone), 'player_team_2_in_recipient_zone': len(player_team_2_in_recipient_zone) }, ignore_index=True)
   return df
