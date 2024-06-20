@@ -248,15 +248,18 @@ def DisplayMatchDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zon
     st.dataframe(df, use_container_width=True)
     labels = df.columns.to_list()
     first_row_values_list = df.values.tolist()[0] # since we have only one row we can use .tolist()[0]
-    # fig. Nr. 1
-    fig = go.Figure(data=[go.Pie(labels=labels, values=first_row_values_list)])
-    fig.update_layout(margin=dict(l=20, r=20, t=30, b=0),)
+    # fig. Nr. 1 
+    fig = go.Figure(data=[go.Pie(labels=labels, values=first_row_values_list, hole=.3)])
+    fig.update_layout(title_text='In-Game Extracted Data',
+                      annotations=[dict(text='rtP', showarrow=False)])
+    fig.update_traces(hoverinfo='label+value+percent+name', textinfo='label+value', insidetextorientation='radial', name='rtP')
     st.plotly_chart(fig, use_container_width=True)
-    # fig. Nr. 2
+    # fig. Nr. 2 (Sunburst)
     fig = go.Figure(go.Sunburst(labels=labels,
-    parents=["","","","","","","number of players team 1", "number of players team 1", "number of players team 1", "number of players team 2", "number of players team 2", "number of players team 2"], 
+    parents=["","","","","","","number of players team 1", "number of players team 2", "number of players team 1", "number of players team 2", "number of players team 1", "number of players team 2"], 
     values=first_row_values_list))
-    fig.update_layout(margin = dict(t=0, l=0, r=0, b=0))
+    fig.update_layout(title_text='In-Game Extracted Data')
+    fig.update_traces(hoverinfo='text+value+name+current path+percent root+percent entry+percent parent', textinfo='label+value', name='Sunburst rtP')
     st.plotly_chart(fig, use_container_width=True)
 
 def UpdateFrameDataDataFrame(df, player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, player_team_1, player_team_2, player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch, frame):
