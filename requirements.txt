@@ -1,3 +1,4 @@
+plotly
 streamlink
 streamlit
 torch
