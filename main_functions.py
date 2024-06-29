@@ -266,6 +266,13 @@ def UpdateFrameDataDataFrame(df, player_id_in_crossing_zone, player_id_in_recipi
   df = df._append({"player_id_in_crossing_zone": len(player_id_in_crossing_zone), 'player_id_in_recipient_zone:': len(player_id_in_recipient_zone), 'player_id_in_pitch': len(player_id_in_pitch), 'player_with_ball': len(player_with_ball), 'player_team_1': player_team_1, 'player_team_2': player_team_2, 'player_team_1_in_pitch': len(player_team_1_in_pitch), 'player_team_2_in_pitch': len(player_team_2_in_pitch), 'player_team_1_in_crossing_zone': len(player_team_1_in_crossing_zone), 'player_team_2_in_crossing_zone': len(player_team_2_in_crossing_zone), 'player_team_1_in_recipient_zone': len(player_team_1_in_recipient_zone), 'player_team_2_in_recipient_zone': len(player_team_2_in_recipient_zone) }, ignore_index=True)
   return df
 
+def CalcBookmakerProfitMargin(goal_probs):
+    probability_decimal = goal_probs
+    if probability_decimal <= 0 or probability_decimal > 1:
+        return "Error: Probability must be between 0 and 100 percent."
+    decimal_odds = 1 / probability_decimal
+    return decimal_odds
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -304,9 +311,9 @@ def PredictGoal(df):
     # Apply softmax to the model's output
     softmax_probs = torch.softmax(predicted_outcome, dim=0)
     if predicted_outcome.argmax().item() == 1:
-        return f"The predicted outcome is likely a no goal with a probability of {softmax_probs[1].item():.1%}."
+        return softmax_probs[1].item()
     else:
-        return f"The predicted outcome is likely a goal with a probability of {softmax_probs[0].item():.1%}."  # {predicted_outcome[0].item():.1%}
+        return softmax_probs[0].item()  # {predicted_outcome[0].item():.1%}
 
 import requests
 import base64
