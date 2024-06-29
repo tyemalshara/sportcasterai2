@@ -109,7 +109,7 @@ if st.session_state["authentication_status"]:
                   GoalPredResults = PredictGoal(df)
                   col2.write(f"The predicted outcome is likely a no goal with a probability of {GoalPredResults:.1%}.")
                   BookermakerSuggestedOdds = CalcBookmakerProfitMargin(goal_probs)
-                  st.write(f"If you are a bookermaker this is our calculation for your odds offering (decimal formated) suggested by SportCasterAI {BookermakerSuggestedOdds}")
+                  col2.write(f"If you are a bookermaker this is our calculation for your odds offering (decimal formated) suggested by SportCasterAI {BookermakerSuggestedOdds}")
                 except Exception as e:
                     print(e)
                     st.error("Something went wrong. Please try again!")
