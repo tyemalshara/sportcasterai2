@@ -108,7 +108,8 @@ if st.session_state["authentication_status"]:
                   DisplayMatchDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, len(player_team_1), len(player_team_2), player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch)
                   GoalPredResults = PredictGoal(df)
                   col2.write(f"The predicted outcome is likely a no goal with a probability of {GoalPredResults:.1%}.")
-                  BookermakerSuggestedOdds = CalcBookmakerProfitMargin(GoalPredResults )
+                  BookermakerSuggestedOdds = CalcBookmakerProfitMargin(GoalPredResults)
+                  st.write(f"If you are a bookermaker this is our calculation for your odds offering (decimal formated) suggested by SportCasterAI {BookermakerSuggestedOdds}")
                   col2.write(f"If you are a bookermaker this is our calculation for your odds offering (decimal formated) suggested by SportCasterAI {BookermakerSuggestedOdds}")
                 except Exception as e:
                     print(e)
