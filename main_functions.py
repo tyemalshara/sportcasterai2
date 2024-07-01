@@ -12,6 +12,7 @@ import cv2
 from PIL import Image
 from sklearn.cluster import KMeans
 from streamlink import Streamlink
+import plotly.graph_objects as go
 
 def stream_to_url(url, quality='best'):
     """ Get URL, and return streamlink URL """
@@ -157,8 +158,18 @@ def player_team_detection(image, a_value, b_value):
   closest_team = np.argmin(distances)
 
   # print(f"Player belongs to Team {closest_team + 1}")
-  return closest_team + 1
+  return closest_team + 1, kmeans
+def player_team_detection_non_init(image, a_value, b_value, kmeans):
 
+    lab_image = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+    # Extract A and B channels
+    a_channel, b_channel, _ = cv2.split(lab_image)
+    predicted_color = kmeans.predict([[a_value, b_value]])
+    predicted_team = predicted_color[0]
+    # print(f"Player belongs to Team {predicted_team + 1}")
+    
+    return predicted_team + 1
+    
 def team_detection(image, instance_segmentation_objects):
   # Run player mask detection on your image -> player_mask_wf.run_on(array=image)
   # Fetch the results
@@ -199,7 +210,10 @@ def team_detection(image, instance_segmentation_objects):
       # cv2.imwrite(f"/content/basketballVideoAnalysis/instance{i}.png", instance)
       # cropped.save(f"/content/basketballVideoAnalysis/cropped{i}.png")
       a_value, b_value = get_AB_value(instance, x0, y0, W, H)
-      player_team = player_team_detection(instance, a_value, b_value)
+      if i == 0:
+          player_team, kmeans = player_team_detection(instance, a_value, b_value)
+      elif i > 0:
+          player_team = player_team_detection_non_init(instance, a_value, b_value, kmeans)
       # print(f"Player {ids[i]} belongs to Team {player_team}")
       if player_team == 1:
         player_team_1.append(ids[i])  # due to different model used for getting the player mask we don't care about the id since it's impossible to reference or find the link between them
@@ -228,9 +242,36 @@ def InitFrameDataDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zo
   df = df.transpose()
   return df
 
+def DisplayMatchDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, player_team_1, player_team_2, player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch):
+    df = pd.DataFrame.from_dict({"number of players in crossing zone": len(player_id_in_crossing_zone), 'number of players in recipient zone:': len(player_id_in_recipient_zone), 'number of players in pitch': len(player_id_in_pitch), 'number of players with ball': len(player_with_ball), 'number of players team 1': player_team_1, 'number of players team 2': player_team_2, 'number of players team 1 in pitch': len(player_team_1_in_pitch), 'number of players team 2 in pitch': len(player_team_2_in_pitch), 'number of players team 1 in crossing zone': len(player_team_1_in_crossing_zone), 'number of players team 2 in crossing zone': len(player_team_2_in_crossing_zone), 'number of players team 1 in recipient zone': len(player_team_1_in_recipient_zone), 'number of players team 2 in recipient zone': len(player_team_2_in_recipient_zone) }, orient='index')
+    df = df.transpose()
+    st.dataframe(df, use_container_width=True)
+    labels = df.columns.to_list()
+    first_row_values_list = df.values.tolist()[0] # since we have only one row we can use .tolist()[0]
+    # fig. Nr. 1 
+    fig = go.Figure(data=[go.Pie(labels=labels, values=first_row_values_list, hole=.3)])
+    fig.update_layout(title_text='In-Game Extracted Data',
+                      annotations=[dict(text='rtP', showarrow=False)])
+    fig.update_traces(hoverinfo='label+value+percent+name', textinfo='label+value', insidetextorientation='radial', name='rtP')
+    st.plotly_chart(fig, use_container_width=True)
+    # fig. Nr. 2 (Sunburst)
+    fig = go.Figure(go.Sunburst(labels=labels,
+    parents=["","","","","","","number of players team 1", "number of players team 2", "number of players team 1", "number of players team 2", "number of players team 1", "number of players team 2"], 
+    values=first_row_values_list))
+    fig.update_layout(title_text='In-Game Extracted Data')
+    fig.update_traces(hoverinfo='text+value+name+current path+percent root+percent entry+percent parent', textinfo='label+value', name='Sunburst rtP')
+    st.plotly_chart(fig, use_container_width=True)
+
 def UpdateFrameDataDataFrame(df, player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, player_team_1, player_team_2, player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch, frame):
   df = df._append({"player_id_in_crossing_zone": len(player_id_in_crossing_zone), 'player_id_in_recipient_zone:': len(player_id_in_recipient_zone), 'player_id_in_pitch': len(player_id_in_pitch), 'player_with_ball': len(player_with_ball), 'player_team_1': player_team_1, 'player_team_2': player_team_2, 'player_team_1_in_pitch': len(player_team_1_in_pitch), 'player_team_2_in_pitch': len(player_team_2_in_pitch), 'player_team_1_in_crossing_zone': len(player_team_1_in_crossing_zone), 'player_team_2_in_crossing_zone': len(player_team_2_in_crossing_zone), 'player_team_1_in_recipient_zone': len(player_team_1_in_recipient_zone), 'player_team_2_in_recipient_zone': len(player_team_2_in_recipient_zone) }, ignore_index=True)
   return df
+
+def CalcBookmakerProfitMargin(goal_probs):
+    probability_decimal = goal_probs
+    if probability_decimal <= 0 or probability_decimal > 1:
+        return "Error: Probability must be between 0 and 100 percent."
+    decimal_odds = 1 / probability_decimal
+    return decimal_odds
 
 import torch
 import torch.nn as nn
@@ -270,9 +311,9 @@ def PredictGoal(df):
     # Apply softmax to the model's output
     softmax_probs = torch.softmax(predicted_outcome, dim=0)
     if predicted_outcome.argmax().item() == 1:
-        return f"The predicted outcome is likely a no goal with a probability of {softmax_probs[1].item():.1%}."
+        return softmax_probs[1].item()
     else:
-        return f"The predicted outcome is likely a goal with a probability of {softmax_probs[0].item():.1%}."  # {predicted_outcome[0].item():.1%}
+        return softmax_probs[0].item()  # {predicted_outcome[0].item():.1%}
 
 import requests
 import base64

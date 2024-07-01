@@ -1,3 +1,4 @@
+plotly
 sendgrid
 Pillow
 streamlit-authenticator

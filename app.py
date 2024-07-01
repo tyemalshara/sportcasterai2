@@ -104,9 +104,13 @@ if st.session_state["authentication_status"]:
                   player_with_ball = player_near_ball(object_detection_objects)
                   player_team_1, player_team_2, player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch = team_detection(frame, instance_segmentation_objects)
                   df = InitFrameDataDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, len(player_team_1), len(player_team_2), player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch, frame)
-    
+                  
+                  DisplayMatchDataFrame(player_id_in_crossing_zone, player_id_in_recipient_zone, player_id_in_pitch, player_with_ball, len(player_team_1), len(player_team_2), player_team_1_in_crossing_zone, player_team_1_in_recipient_zone, player_team_1_in_pitch, player_team_2_in_crossing_zone, player_team_2_in_recipient_zone, player_team_2_in_pitch)
                   GoalPredResults = PredictGoal(df)
-                  col2.write(GoalPredResults)
+                  col2.write(f"The predicted outcome is likely a no goal with a probability of {GoalPredResults:.1%}.")
+                  BookermakerSuggestedOdds = CalcBookmakerProfitMargin(GoalPredResults)
+                  st.write(f"If you are a bookermaker this is our calculation for your odds offering (decimal formated) suggested by SportCasterAI {BookermakerSuggestedOdds:.1%}.")
+                  col2.write(f"If you are a bookermaker this is our calculation for your odds offering (decimal formated) suggested by SportCasterAI {BookermakerSuggestedOdds:.1%}.")
                 except Exception as e:
                     print(e)
                     st.error("Something went wrong. Please try again!")
